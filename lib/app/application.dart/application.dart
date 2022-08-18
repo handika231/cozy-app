@@ -32,7 +32,7 @@ class Application extends StatelessWidget {
       initialRoute: SplashScreen.nameRoute,
       routes: {
         HomePage.nameRoute: (context) => const HomePage(),
-        SplashScreen.nameRoute: (context) => const SplashScreen(),
+        SplashScreen.nameRoute: (context) => SplashScreen(),
       },
     );
   }
