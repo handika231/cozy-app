@@ -1,12 +1,23 @@
 import 'package:cozy_app/config/app_style.dart';
 import 'package:cozy_app/config/config.dart';
 import 'package:cozy_app/model/space/space.dart';
+import 'package:cozy_app/pages/home_page.dart';
+import 'package:cozy_app/service/url_service.dart';
 import 'package:flutter/material.dart';
 
-class DetailPage extends StatelessWidget {
+import '../widgets/facility_widget.dart';
+
+class DetailPage extends StatefulWidget {
   static const routeName = '/detail';
   final Space space;
   const DetailPage({Key? key, required this.space}) : super(key: key);
+
+  @override
+  State<DetailPage> createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  bool isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +26,7 @@ class DetailPage extends StatelessWidget {
           child: Stack(
         children: [
           Image.network(
-            space.imageUrl.toString(),
+            widget.space.imageUrl.toString(),
             fit: BoxFit.cover,
             width: double.infinity,
             height: 350,
@@ -44,7 +55,7 @@ class DetailPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${space.name}',
+                            '${widget.space.name}',
                             style: AppStyle.blackTextStyle.copyWith(
                               fontSize: 24,
                             ),
@@ -54,7 +65,7 @@ class DetailPage extends StatelessWidget {
                           ),
                           Text.rich(
                             TextSpan(
-                              text: '\$${space.price} ',
+                              text: '\$${widget.space.price} ',
                               style: AppStyle.purpleTextStyle.copyWith(
                                 fontSize: 16,
                               ),
@@ -72,7 +83,7 @@ class DetailPage extends StatelessWidget {
                       ),
                       Row(
                         children: [1, 2, 3, 4, 5].map((index) {
-                          if (index <= space.rating!.toInt()) {
+                          if (index <= widget.space.rating!.toInt()) {
                             return Icon(
                               Icons.star,
                               color: AppStyle.orangeColor,
@@ -111,16 +122,18 @@ class DetailPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           FacilityWidget(
-                            numbersOfItem: '${space.numberOfKitchens} Kitchen',
+                            numbersOfItem:
+                                '${widget.space.numberOfKitchens} Kitchen',
                             image: 'kitchen',
                           ),
                           FacilityWidget(
-                            numbersOfItem: '${space.numberOfBedrooms} Bedroom',
+                            numbersOfItem:
+                                '${widget.space.numberOfBedrooms} Bedroom',
                             image: 'bedroom',
                           ),
                           FacilityWidget(
                             numbersOfItem:
-                                '${space.numberOfCupboards} Big Lemari',
+                                '${widget.space.numberOfCupboards} Big Lemari',
                             image: 'cupboard',
                           )
                         ],
@@ -151,9 +164,9 @@ class DetailPage extends StatelessWidget {
                         height: 100,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: space.photos?.length,
+                          itemCount: widget.space.photos?.length,
                           itemBuilder: (context, index) {
-                            String? image = space.photos?[index];
+                            String? image = widget.space.photos?[index];
                             return Padding(
                               padding: const EdgeInsets.only(right: 18),
                               child: ClipRRect(
@@ -194,13 +207,17 @@ class DetailPage extends StatelessWidget {
                             height: 8,
                           ),
                           Text(
-                            '${space.address}',
+                            '${widget.space.address}',
                             style: AppStyle.greyTextStyle,
                           ),
                         ],
                       ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          UrlService.launchURL(
+                            widget.space.mapUrl.toString(),
+                          );
+                        },
                         icon: const Icon(Icons.location_on),
                       )
                     ],
@@ -226,12 +243,22 @@ class DetailPage extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      'Button label',
+                      'Book Now',
                       style: AppStyle.whiteTextStyle.copyWith(
                         fontSize: 18,
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Booking is Success',
+                          ),
+                        ),
+                      );
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, HomePage.nameRoute, (route) => false);
+                    },
                   ),
                 ),
                 const SizedBox(
@@ -260,48 +287,28 @@ class DetailPage extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
-                  child: Image.asset(
-                    'assets/btn_wishlist.png',
-                    width: 40,
-                    height: 40,
-                  ),
+                  onTap: () {
+                    setState(() {
+                      isFavorite = !isFavorite;
+                    });
+                  },
+                  child: isFavorite
+                      ? Image.asset(
+                          'assets/btn_wishlist_active.png',
+                          width: 40,
+                          height: 40,
+                        )
+                      : Image.asset(
+                          'assets/btn_wishlist.png',
+                          width: 40,
+                          height: 40,
+                        ),
                 ),
               ],
             ),
           ),
         ],
       )),
-    );
-  }
-}
-
-class FacilityWidget extends StatelessWidget {
-  final String image, numbersOfItem;
-  const FacilityWidget({
-    Key? key,
-    required this.image,
-    required this.numbersOfItem,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Image.asset(
-          'assets/icon_$image.png',
-          width: 32,
-          fit: BoxFit.cover,
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        Text(
-          numbersOfItem,
-          style: AppStyle.greyTextStyle,
-        ),
-      ],
     );
   }
 }
