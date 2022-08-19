@@ -1,3 +1,4 @@
+import 'package:cozy_app/service/api_service.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,8 +12,20 @@ class HomePage extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: const Text('This is Home Page'),
       ),
-      body: const Center(
-        child: Text('Home Page'),
+      body: Center(
+        child: FutureBuilder(
+          future: ApiService.getData(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            print(snapshot.data);
+            return const CircularProgressIndicator();
+            // if (snapshot.data == null ||
+            //     snapshot.connectionState == ConnectionState.waiting) {
+            //   return const CircularProgressIndicator();
+            // } else {
+            //   return Text(snapshot.data);
+            // }
+          },
+        ),
       ),
     );
   }

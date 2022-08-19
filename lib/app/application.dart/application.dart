@@ -5,7 +5,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 import '../../pages/pages.dart';
 
-// TODO : bwa-cozy.herokuapp.com/recomended-spaces
+// TODO :
 
 class Application extends StatelessWidget {
   const Application({Key? key}) : super(key: key);
@@ -32,7 +32,7 @@ class Application extends StatelessWidget {
       initialRoute: SplashScreen.nameRoute,
       routes: {
         HomePage.nameRoute: (context) => const HomePage(),
-        SplashScreen.nameRoute: (context) => SplashScreen(),
+        SplashScreen.nameRoute: (context) => const SplashScreen(),
       },
     );
   }

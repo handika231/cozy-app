@@ -52,8 +52,11 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
           Showcase(
             overlayPadding: const EdgeInsets.only(
-              bottom: 50,
+              bottom: 36,
+              top: -24,
+              right: 8,
             ),
+            contentPadding: const EdgeInsets.all(12),
             description: 'Tap to continue',
             key: _key1,
             showcaseBackgroundColor: Colors.indigo,
