@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import '../../model/space/space.dart';
+import '../../pages/detail_page.dart';
 import '../../pages/pages.dart';
 
 // TODO :
@@ -33,6 +35,9 @@ class Application extends StatelessWidget {
       routes: {
         HomePage.nameRoute: (context) => const HomePage(),
         SplashScreen.nameRoute: (context) => const SplashScreen(),
+        DetailPage.routeName: (context) => DetailPage(
+              space: ModalRoute.of(context)?.settings.arguments as Space,
+            ),
       },
     );
   }
