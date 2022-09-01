@@ -262,7 +262,7 @@ class HomePage extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(
         left: AppStyle.edge,
-        bottom: 50,
+        bottom: 150,
         right: AppStyle.edge,
       ),
       child: Column(

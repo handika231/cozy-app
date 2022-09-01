@@ -110,8 +110,8 @@ class _SplashScreenState extends State<SplashScreen> {
             body: SafeArea(
               child: Stack(
                 children: [
-                  _headerContent(context),
                   _footerContent(),
+                  _headerContent(context),
                 ],
               ),
             ),

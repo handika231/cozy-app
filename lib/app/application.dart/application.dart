@@ -18,10 +18,10 @@ class Application extends StatelessWidget {
       builder: (context, child) => ResponsiveWrapper.builder(
         child,
         maxWidth: 1200,
-        minWidth: 400,
+        minWidth: 480,
         defaultScale: true,
         breakpoints: [
-          const ResponsiveBreakpoint.autoScale(400, name: MOBILE),
+          const ResponsiveBreakpoint.autoScale(480, name: MOBILE),
           const ResponsiveBreakpoint.autoScale(800, name: TABLET),
           const ResponsiveBreakpoint.autoScale(1200, name: DESKTOP),
         ],
